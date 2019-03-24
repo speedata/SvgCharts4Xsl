@@ -16,8 +16,11 @@ Redistribution and use, with or without modification, are permitted provided tha
     # Neither the name of Imaginea nor the names of the developers may be used to endorse or promote products derived from
       this software without specific prior written permission.
 -->
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes=" math">
+<xsl:stylesheet version="2.0" 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:math="http://www.w3.org/2005/xpath-functions/math"
+	xmlns:sd="urn:speedata-functions"
+	exclude-result-prefixes=" math">
 	<xsl:import href="common.xsl" />
 
 	<!-- Constants -->
@@ -195,11 +198,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:param name="padding" />
 		<xsl:param name="radius" />
 
-		<xsl:variable name="colour">
-			<xsl:call-template name="colour">
-				<xsl:with-param name="index" select="$index" />
-			</xsl:call-template>
-		</xsl:variable>
+		<xsl:variable name="colour" select="sd:color($index)"/>
 		<xsl:variable name="largeArcFlag">
 			<xsl:choose>
 				<xsl:when test="$angleInRadians &gt; $HALF_CIRCLE_ANGLE">
@@ -256,12 +255,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 
 		<xsl:for-each select="$data">
 			<xsl:variable name="y" select="$yStart+(position()-1)*8" />
-			<xsl:variable name="colour">
-				<xsl:call-template name="colour">
-					<xsl:with-param name="index" select="position()" />
-				</xsl:call-template>
-			</xsl:variable>
-
+			<xsl:variable name="colour" select="sd:color(position())"/>
 			<svg:rect x="{$xStart}" y="{$y}" rx="1" ry="1" width="10" height="5" fill="{$colour}"
 			    stroke="black" stroke-width="0.5" xmlns:svg="http://www.w3.org/2000/svg" />
 

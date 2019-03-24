@@ -16,7 +16,9 @@ Redistribution and use, with or without modification, are permitted provided tha
     # Neither the name of Imaginea nor the names of the developers may be used to endorse or promote products derived from
       this software without specific prior written permission.
 -->
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="2.0" 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:sd="urn:speedata-functions">
 	<xsl:import href="common.xsl" />
 
 	<!-- Constants -->
@@ -51,16 +53,8 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<svg:svg version="1.1" width="{$width}" height="{$height}" preserveAspectRatio="xMinYMin" viewBox="0 0 {$viewBoxWidth} {$viewBoxHeight}"
 		    xmlns:svg="http://www.w3.org/2000/svg">
 			<xsl:if test="$xCount &gt; 0 and $yCount &gt; 0">
-				<xsl:variable name="yDataMin">
-					<xsl:call-template name="minimum">
-						<xsl:with-param name="numbers" select="$yData" />
-					</xsl:call-template>
-				</xsl:variable>
-				<xsl:variable name="yDataMax">
-					<xsl:call-template name="maximum">
-						<xsl:with-param name="numbers" select="$yData" />
-					</xsl:call-template>
-				</xsl:variable>
+				<xsl:variable name="yDataMin" select="min($yData)"/>
+				<xsl:variable name="yDataMax" select="max($yData)"/>
 				<xsl:variable name="yScale"	select="$_verticalSpan div ($yDataMax - $yDataMin)" />
 				<xsl:variable name="yDelta"	select="round(($yDataMax - $yDataMin) div $yCount)*2" />
 				<xsl:variable name="xMin" select="$leftPadding" />
@@ -131,17 +125,9 @@ Redistribution and use, with or without modification, are permitted provided tha
 				<!-- Print bars -->
 				<svg:g transform="translate(0 {$yCentre}) scale(1 -1)">
 					<xsl:for-each select="$yData">
-						<xsl:variable name="colour">
-							<xsl:call-template name="colour">
-								<xsl:with-param name="index" select="position()" />
-							</xsl:call-template>
-						</xsl:variable>
+						<xsl:variable name="colour" select="sd:color(position())"/>
 						<xsl:variable name="height" select=".*$yScale" />
-						<xsl:variable name="absoluteHeight">
-							<xsl:call-template name="absolute">
-								<xsl:with-param name="number" select="floor($height)" />
-							</xsl:call-template>
-						</xsl:variable>
+						<xsl:variable name="absoluteHeight" select="abs(floor($height))"/>
 						<xsl:variable name="y">
 							<xsl:choose>
 								<xsl:when test="$height &gt;= 0">

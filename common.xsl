@@ -16,56 +16,20 @@ Redistribution and use, with or without modification, are permitted provided tha
     # Neither the name of Imaginea nor the names of the developers may be used to endorse or promote products derived from
       this software without specific prior written permission.
 -->
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="2.0" 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:sd="urn:speedata-functions">
 
 	<!-- Constants -->
-	<xsl:variable name="COLOURS" select="document('colours.xml')/colours/colour" />
+	<xsl:variable name="COLOURS" select="('violet','orangered', 'navajowhite', 'teal', 'limegreen', 'hotpink', 'maroon', 'steelblue', 'olive', 'gold', 'yellow', 'yellowgreen', 'red', 'wheat', 'darkgreen', 'brown', 'olivedrab', 'darkblue', 'firebrick', 'gray') "/>
 	<xsl:variable name="FONT" select="'Arial'" />
 	<xsl:variable name="FONT_SIZE" select="5" />
 
-	<!-- Helper template to return the maximum of given items -->
-	<xsl:template name="maximum">
-		<xsl:param name="numbers" />
-
-		<xsl:for-each select="$numbers">
-			<xsl:sort select="." data-type="number" order="descending" />
-			<xsl:if test="position()=1">
-				<xsl:value-of select="." />
-			</xsl:if>
-		</xsl:for-each>
-	</xsl:template>
-
-	<!-- Helper template to return the minimum of given items -->
-	<xsl:template name="minimum">
-		<xsl:param name="numbers" />
-
-		<xsl:for-each select="$numbers">
-			<xsl:sort select="." data-type="number" order="ascending" />
-			<xsl:if test="position()=1">
-				<xsl:value-of select="." />
-			</xsl:if>
-		</xsl:for-each>
-	</xsl:template>
-
-	<!-- Helper template to return the absolute value -->
-	<xsl:template name="absolute">
-		<xsl:param name="number" />
-
-		<xsl:choose>
-			<xsl:when test="$number &gt;= 0">
-				<xsl:value-of select="$number" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="- $number" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<!-- Returns a named colour for the given index -->
-	<xsl:template name="colour">
-		<xsl:param name="index" />
-		<xsl:value-of select="$COLOURS[@index=($index mod count($COLOURS))]" />
-	</xsl:template>
+	<xsl:function name="sd:color" as="xs:string">
+		<xsl:param name="index" as="xs:integer"/>
+		<xsl:value-of select="$COLOURS[( ($index - 1)  mod count($COLOURS) ) + 1]"/>
+	</xsl:function>
 
 	<!-- Helper template to print x-axis -->
 	<xsl:template name="printXAxis">
