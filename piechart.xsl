@@ -16,8 +16,8 @@ Redistribution and use, with or without modification, are permitted provided tha
     # Neither the name of Imaginea nor the names of the developers may be used to endorse or promote products derived from
       this software without specific prior written permission.
 -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:math="http://exslt.org/math" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl math">
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes=" math">
 	<xsl:import href="common.xsl" />
 
 	<!-- Constants -->
@@ -29,8 +29,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 
 	<!--
 	Prints a simple pie chart with legend
-	1. Will not work on transformers not supporting EXSLT extension
-	2. Percentages may not be accurate
+	   Percentages may not be accurate
 	-->
 	<xsl:template name="pieChart">
 		<xsl:param name="xData" />
@@ -66,7 +65,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 						<xsl:with-param name="othersLabel" select="$othersLabel" />
 					</xsl:call-template>
 				</xsl:variable>
-				<xsl:variable name="aggregatedData" select="exsl:node-set($_aggregatedData)/*" />
+				<xsl:variable name="aggregatedData" select="$_aggregatedData/*" />
 
 				<xsl:call-template name="_printPies">
 					<xsl:with-param name="data" select="$aggregatedData" />
@@ -94,7 +93,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 				<xsl:with-param name="yData" select="$yData" />
 			</xsl:call-template>
 		</xsl:variable>
-		<xsl:variable name="transformedData" select="exsl:node-set($_transformedData)/*" />
+		<xsl:variable name="transformedData" select="$_transformedData/*" />
 
 		<!-- filter 'other' items -->
 		<xsl:for-each select="$transformedData">

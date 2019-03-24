@@ -16,7 +16,7 @@ Redistribution and use, with or without modification, are permitted provided tha
     # Neither the name of Imaginea nor the names of the developers may be used to endorse or promote products derived from
       this software without specific prior written permission.
 -->
-<xsl:stylesheet version="1.0"
+<xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:import href="linechart.xsl" />
 	<xsl:import href="barchart.xsl" />
