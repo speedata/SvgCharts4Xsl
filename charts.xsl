@@ -3,6 +3,7 @@
 
 Maintained by Patrick Gundlach, speedata. See git log for changes.
 
+https://github.com/speedata/SvgCharts4Xsl
 
 Original copyright notice follows:
 
@@ -27,7 +28,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:math="http://www.w3.org/2005/xpath-functions/math"
 	xmlns:sd="urn:speedata-functions"
-	exclude-result-prefixes="math">
+	exclude-result-prefixes="#all">
 	
 	<!-- Constants -->
 	<xsl:variable name="COLOURS" select="('violet','orangered', 'navajowhite', 'teal', 'limegreen', 'hotpink', 'maroon', 'steelblue', 'olive', 'gold', 'yellow', 'yellowgreen', 'red', 'wheat', 'darkgreen', 'brown', 'olivedrab', 'darkblue', 'firebrick', 'gray') "/>
@@ -48,11 +49,11 @@ Redistribution and use, with or without modification, are permitted provided tha
 		
 		<xsl:for-each select="$xData">
 			<xsl:if test="position() &lt;= $xMax">
-				<svg:text writing-mode="tb" x="{$xMin+(position() - 1)*$step}"
+				<text writing-mode="tb" x="{$xMin+(position() - 1)*$step}"
 					dy="5" fill="black" font-family="{$FONT}" font-weight="bold"
-					font-size="{$FONT_SIZE}" xmlns:svg="http://www.w3.org/2000/svg">
+					font-size="{$FONT_SIZE}" xmlns="http://www.w3.org/2000/svg">
 					<xsl:value-of select="." />
-				</svg:text>
+				</text>
 			</xsl:if>
 		</xsl:for-each>
 	</xsl:template>
@@ -79,13 +80,13 @@ Redistribution and use, with or without modification, are permitted provided tha
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<svg:text x="{($xMin - 5)}" y="{($y + $labelDelta)}"
+			<text x="{($xMin - 5)}" y="{($y + $labelDelta)}"
 				text-anchor="end" fill="black" font-family="{$FONT}" font-weight="bold"
-				font-size="{$FONT_SIZE}" xmlns:svg="http://www.w3.org/2000/svg">
+				font-size="{$FONT_SIZE}" xmlns="http://www.w3.org/2000/svg">
 				<xsl:value-of select="$index" />
-			</svg:text>
-			<svg:line x1="{$xMin}" y1="{$y}" x2="{$xMax}" y2="{$y}"
-				stroke="grey" stroke-width="0.25" xmlns:svg="http://www.w3.org/2000/svg" />
+			</text>
+			<line x1="{$xMin}" y1="{$y}" x2="{$xMax}" y2="{$y}"
+				stroke="grey" stroke-width="0.25" xmlns="http://www.w3.org/2000/svg" />
 			
 			<xsl:call-template name="printYAxis">
 				<xsl:with-param name="index" select="$index+$step" />
@@ -136,8 +137,8 @@ Redistribution and use, with or without modification, are permitted provided tha
 			</xsl:choose>
 		</xsl:variable>
 		
-		<svg:svg version="1.1" width="{$width}" height="{$height}" preserveAspectRatio="xMinYMin" viewBox="0 0 {$viewBoxWidth} {$viewBoxHeight}"
-			xmlns:svg="http://www.w3.org/2000/svg">
+		<svg version="1.1" width="{$width}" height="{$height}" preserveAspectRatio="xMinYMin" viewBox="0 0 {$viewBoxWidth} {$viewBoxHeight}"
+			xmlns="http://www.w3.org/2000/svg">
 			<xsl:if test="$xCount &gt; 0 and $yCount &gt; 0">
 				<xsl:variable name="yDataMin" select="min($yData)"/>
 				<xsl:variable name="yDataMax" select="max($yData)"/>
@@ -192,7 +193,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 				
 				
 				<!-- Print centre -->
-				<svg:circle cx="{$xMin}" cy="{$yCentre}" r="1" />
+				<circle cx="{$xMin}" cy="{$yCentre}" r="1" />
 				
 				<!-- Print y-axis -->
 				<xsl:call-template name="printYAxis">
@@ -204,13 +205,13 @@ Redistribution and use, with or without modification, are permitted provided tha
 					<xsl:with-param name="yMax" select="$yMax" />
 					<xsl:with-param name="yScale" select="$yScale" />
 				</xsl:call-template>
-				<svg:g transform="translate(0 {$totalHeight}) scale(1 -1)">
-					<svg:line x1="{$xMin}" y1="{$yStart}" x2="{$xMin}" y2="{$totalHeight}"
+				<g transform="translate(0 {$totalHeight}) scale(1 -1)">
+					<line x1="{$xMin}" y1="{$yStart}" x2="{$xMin}" y2="{$totalHeight}"
 						stroke="black" stroke-width="2" />
-				</svg:g>
+				</g>
 				
 				<!-- Print points -->
-				<svg:g transform="translate(0 {$yCentre}) scale(1 -1)">
+				<g transform="translate(0 {$yCentre}) scale(1 -1)">
 					<xsl:call-template name="_printPoints">
 						<xsl:with-param name="yData" select="$yData" />
 						<xsl:with-param name="xMin" select="$xStart" />
@@ -219,20 +220,20 @@ Redistribution and use, with or without modification, are permitted provided tha
 						<xsl:with-param name="lineColour" select="$lineColour" />
 						<xsl:with-param name="pointColour" select="$pointColour" />
 					</xsl:call-template>
-				</svg:g>
+				</g>
 				
 				<!-- Print x-axis -->
-				<svg:g transform="translate(0 {$yCentre})">
+				<g transform="translate(0 {$yCentre})">
 					<xsl:call-template name="printXAxis">
 						<xsl:with-param name="xData" select="$xData" />
 						<xsl:with-param name="step" select="$xDelta" />
 						<xsl:with-param name="xMin" select="$xStart" />
 						<xsl:with-param name="xMax" select="$yCount" />
 					</xsl:call-template>
-					<svg:line x1="{$xMin}" y1="0" x2="{$xMax}" y2="0" stroke="black" stroke-width="2" />
-				</svg:g>
+					<line x1="{$xMin}" y1="0" x2="{$xMax}" y2="0" stroke="black" stroke-width="2" />
+				</g>
 			</xsl:if>
-		</svg:svg>
+		</svg>
 	</xsl:template>
 	
 	<!-- Prints points and joins them -->
@@ -248,11 +249,11 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:variable name="x" select="$xMin+($index - 1)*$xDelta" />
 		<xsl:variable name="y" select="$yData[$index]*$yScale" />
 		<xsl:if test="$yData[$index+1]">
-			<svg:line x1="{$x}" y1="{$y}" x2="{$xMin+($index)*$xDelta}" y2="{$yData[$index+1]*$yScale}"
-				stroke="{$lineColour}" stroke-width="1" xmlns:svg="http://www.w3.org/2000/svg" />
+			<line x1="{$x}" y1="{$y}" x2="{$xMin+($index)*$xDelta}" y2="{$yData[$index+1]*$yScale}"
+				stroke="{$lineColour}" stroke-width="1" xmlns="http://www.w3.org/2000/svg" />
 		</xsl:if>
-		<svg:circle cx="{$x}" cy="{$y}" r="{$POINT_RADIUS}" fill="white" stroke="{$pointColour}" stroke-width="1"
-			xmlns:svg="http://www.w3.org/2000/svg" />
+		<circle cx="{$x}" cy="{$y}" r="{$POINT_RADIUS}" fill="white" stroke="{$pointColour}" stroke-width="1"
+			xmlns="http://www.w3.org/2000/svg" />
 		
 		<xsl:if test="$index &lt; count($yData)">
 			<xsl:call-template name="_printPoints">
@@ -300,8 +301,8 @@ Redistribution and use, with or without modification, are permitted provided tha
 			</xsl:choose>
 		</xsl:variable>
 		
-		<svg:svg version="1.1" width="{$width}" height="{$height}" preserveAspectRatio="xMinYMin" viewBox="0 0 {$viewBoxWidth} {$viewBoxHeight}"
-			xmlns:svg="http://www.w3.org/2000/svg">
+		<svg version="1.1" width="{$width}" height="{$height}" preserveAspectRatio="xMinYMin" viewBox="0 0 {$viewBoxWidth} {$viewBoxHeight}"
+			xmlns="http://www.w3.org/2000/svg">
 			<xsl:if test="$xCount &gt; 0 and $yCount &gt; 0">
 				<xsl:variable name="yDataMin" select="min($yData)"/>
 				<xsl:variable name="yDataMax" select="max($yData)"/>
@@ -355,7 +356,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 				
 				
 				<!-- Print centre -->
-				<svg:circle cx="{$xMin}" cy="{$yCentre}" r="1" />
+				<circle cx="{$xMin}" cy="{$yCentre}" r="1" />
 				
 				<!-- Print y-axis -->
 				<xsl:call-template name="printYAxis">
@@ -367,13 +368,13 @@ Redistribution and use, with or without modification, are permitted provided tha
 					<xsl:with-param name="yMax" select="$yMax" />
 					<xsl:with-param name="yScale" select="$yScale" />
 				</xsl:call-template>
-				<svg:g transform="translate(0 {$totalHeight}) scale(1 -1)">
-					<svg:line x1="{$xMin}" y1="{$yStart}" x2="{$xMin}" y2="{$totalHeight}"
+				<g transform="translate(0 {$totalHeight}) scale(1 -1)">
+					<line x1="{$xMin}" y1="{$yStart}" x2="{$xMin}" y2="{$totalHeight}"
 						stroke="black" stroke-width="2" />
-				</svg:g>
+				</g>
 				
 				<!-- Print bars -->
-				<svg:g transform="translate(0 {$yCentre}) scale(1 -1)">
+				<g transform="translate(0 {$yCentre}) scale(1 -1)">
 					<xsl:for-each select="$yData">
 						<xsl:variable name="colour" select="sd:color(position())"/>
 						<xsl:variable name="height" select=".*$yScale" />
@@ -389,24 +390,24 @@ Redistribution and use, with or without modification, are permitted provided tha
 							</xsl:choose>
 						</xsl:variable>
 						
-						<svg:rect x="{$xMin+(position() - 1)*$barWidth}" y="{$y}" rx="2" ry="2"
+						<rect x="{$xMin+(position() - 1)*$barWidth}" y="{$y}" rx="2" ry="2"
 							width="{$barWidth}" height="{$absoluteHeight}"
 							fill="{$colour}" stroke="black" stroke-width="1" />
 					</xsl:for-each>
-				</svg:g>
+				</g>
 				
 				<!-- Print x-axis -->
-				<svg:g transform="translate(0 {$yCentre})">
+				<g transform="translate(0 {$yCentre})">
 					<xsl:call-template name="printXAxis">
 						<xsl:with-param name="xData" select="$xData" />
 						<xsl:with-param name="step" select="$barWidth" />
 						<xsl:with-param name="xMin" select="$xMin+$barWidth div 2" />
 						<xsl:with-param name="xMax" select="$yCount" />
 					</xsl:call-template>
-					<svg:line x1="{$xMin}" y1="0" x2="{$xMax}" y2="0" stroke="black" stroke-width="2" />
-				</svg:g>
+					<line x1="{$xMin}" y1="0" x2="{$xMax}" y2="0" stroke="black" stroke-width="2" />
+				</g>
 			</xsl:if>
-		</svg:svg>
+		</svg>
 	</xsl:template>
 	
 	<!--
@@ -450,8 +451,8 @@ Redistribution and use, with or without modification, are permitted provided tha
 			</xsl:choose>
 		</xsl:variable>
 		
-		<svg:svg version="1.1" width="{$width}" height="{$height}" preserveAspectRatio="xMinYMid" viewBox="0 0 {$viewBoxWidth} {$viewBoxHeight}"
-			xmlns:svg="http://www.w3.org/2000/svg">
+		<svg version="1.1" width="{$width}" height="{$height}" preserveAspectRatio="xMinYMid" viewBox="0 0 {$viewBoxWidth} {$viewBoxHeight}"
+			xmlns="http://www.w3.org/2000/svg">
 			<xsl:if test="$xCount &gt; 0 and $yCount &gt; 0">
 				<xsl:variable name="_aggregatedData">
 					<xsl:call-template name="_aggregate">
@@ -473,7 +474,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 					<xsl:with-param name="yStart" select="$padding" />
 				</xsl:call-template>
 			</xsl:if>
-		</svg:svg>
+		</svg>
 	</xsl:template>
 	
 	<!-- Aggregates data to be printed; merges small values under 'Others' -->
@@ -603,10 +604,10 @@ Redistribution and use, with or without modification, are permitted provided tha
 		</xsl:variable>
 		<xsl:variable name="centre" select="$padding+$radius" />
 		
-		<svg:path fill="{$colour}" stroke="white" stroke-width="1"
+		<path fill="{$colour}" stroke="white" stroke-width="1"
 			transform="translate({$centre} {$centre}) rotate({$rotationInDegrees})"
 			d="M {$radius} 0 A {$radius} {$radius} 0 {$largeArcFlag} 1 {$radius*math:cos($angleInRadians)} {$radius*math:sin($angleInRadians)} L 0 0 Z"
-			xmlns:svg="http://www.w3.org/2000/svg" />
+			xmlns="http://www.w3.org/2000/svg" />
 	</xsl:template>
 	
 	<!-- Prints label inside the pie -->
@@ -626,8 +627,8 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:variable name="y" select="math:sin($angleInRadians)*$labelRadius" />
 		<xsl:variable name="centre" select="$padding+$radius" />
 		
-		<svg:text text-anchor="middle" fill="black" transform="translate({$centre} {$centre})"
-			font-family="{$FONT}" font-size="{$FONT_SIZE}" xmlns:svg="http://www.w3.org/2000/svg">
+		<text text-anchor="middle" fill="black" transform="translate({$centre} {$centre})"
+			font-family="{$FONT}" font-size="{$FONT_SIZE}" xmlns="http://www.w3.org/2000/svg">
 			<xsl:attribute name="x">
 				<xsl:value-of select="($x*$cosine)-($y*$sine)" />
 			</xsl:attribute>
@@ -636,7 +637,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 			</xsl:attribute>
 			<xsl:value-of select="round(100*($data[$index] div $total))" />
 			<xsl:text>%</xsl:text>
-		</svg:text>
+		</text>
 	</xsl:template>
 	
 	<!-- Prints legend -->
@@ -648,14 +649,14 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:for-each select="$data">
 			<xsl:variable name="y" select="$yStart+(position()-1)*8" />
 			<xsl:variable name="colour" select="sd:color(position())"/>
-			<svg:rect x="{$xStart}" y="{$y}" rx="1" ry="1" width="10" height="5" fill="{$colour}"
-				stroke="black" stroke-width="0.5" xmlns:svg="http://www.w3.org/2000/svg" />
+			<rect x="{$xStart}" y="{$y}" rx="1" ry="1" width="10" height="5" fill="{$colour}"
+				stroke="black" stroke-width="0.5" xmlns="http://www.w3.org/2000/svg" />
 			
-			<svg:text text-anchor="start" x="{$xStart+15}" y="{$y + 4}" font-family="{$FONT}" font-size="{$FONT_SIZE}"
-				xmlns:svg="http://www.w3.org/2000/svg">
+			<text text-anchor="start" x="{$xStart+15}" y="{$y + 4}" font-family="{$FONT}" font-size="{$FONT_SIZE}"
+				xmlns="http://www.w3.org/2000/svg">
 				<xsl:value-of select="@name" />
 				<xsl:text> (</xsl:text><xsl:value-of select="." /><xsl:text>)</xsl:text>
-			</svg:text>
+			</text>
 		</xsl:for-each>
 	</xsl:template>
 
