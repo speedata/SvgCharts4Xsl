@@ -28,6 +28,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:math="http://www.w3.org/2005/xpath-functions/math"
 	xmlns:sd="urn:speedata-functions"
+	xmlns="http://www.w3.org/2000/svg"
 	exclude-result-prefixes="#all">
 
 	<!-- Constants -->
@@ -49,7 +50,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 
 		<xsl:for-each select="$xData">
 			<xsl:if test="position() &lt;= $xMax">
-				<text writing-mode="tb" dy="5" fill="black" font-weight="bold" xmlns="http://www.w3.org/2000/svg">
+				<text writing-mode="tb" dy="5" fill="black" font-weight="bold" >
 					<xsl:attribute name="x" select="$xMin+(position() - 1)*$step"/>
 					<xsl:attribute name="font-family" select="$FONT"/>
 					<xsl:attribute name="font-size" select="$FONT_SIZE"/>
@@ -72,10 +73,10 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:variable name="labelDelta" select="$FONT_SIZE div 2" />
 		<xsl:if test="$index &lt; $yMax">
 			<xsl:variable name="y" select="if ($yMin &lt; 0) then floor($yScale*($yMax - $index + $step div 2)) else floor($yScale*($yMax - $index))"/>
-			<text x="{($xMin - 5)}" y="{($y + $labelDelta)}" text-anchor="end" fill="black" font-family="{$FONT}" font-weight="bold" font-size="{$FONT_SIZE}" xmlns="http://www.w3.org/2000/svg">
+			<text x="{($xMin - 5)}" y="{($y + $labelDelta)}" text-anchor="end" fill="black" font-family="{$FONT}" font-weight="bold" font-size="{$FONT_SIZE}" >
 				<xsl:value-of select="$index" />
 			</text>
-			<line x1="{$xMin}" y1="{$y}" x2="{$xMax}" y2="{$y}" stroke="grey" stroke-width="0.25" xmlns="http://www.w3.org/2000/svg" />
+			<line x1="{$xMin}" y1="{$y}" x2="{$xMax}" y2="{$y}" stroke="grey" stroke-width="0.25"  />
 
 			<xsl:call-template name="printYAxis">
 				<xsl:with-param name="index" select="$index+$step" />
@@ -117,7 +118,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:variable name="yCount" select="count($yData)" />
 		<xsl:variable name="_verticalSpan" select="if ($verticalSpan &lt; $MIN_VERTICAL_SPAN) then $MIN_VERTICAL_SPAN else $verticalSpan"/>
 
-		<svg version="1.1" preserveAspectRatio="xMinYMin" xmlns="http://www.w3.org/2000/svg">
+		<svg version="1.1" preserveAspectRatio="xMinYMin" >
 			<xsl:attribute name="width" select="$width"/>
 			<xsl:attribute name="height" select="$height"/>
 			<xsl:attribute name="viewBox" select="concat('0 0 ', $viewBoxWidth, ' ', $viewBoxHeight)"/>
@@ -194,9 +195,9 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:variable name="x" select="$xMin+($index - 1)*$xDelta" />
 		<xsl:variable name="y" select="$yData[$index]*$yScale" />
 		<xsl:if test="$yData[$index+1]">
-			<line x1="{$x}" y1="{$y}" x2="{$xMin+($index)*$xDelta}" y2="{$yData[$index+1]*$yScale}" stroke="{$lineColour}" stroke-width="1" xmlns="http://www.w3.org/2000/svg" />
+			<line x1="{$x}" y1="{$y}" x2="{$xMin+($index)*$xDelta}" y2="{$yData[$index+1]*$yScale}" stroke="{$lineColour}" stroke-width="1"  />
 		</xsl:if>
-		<circle cx="{$x}" cy="{$y}" r="{$POINT_RADIUS}" fill="white" stroke="{$pointColour}" stroke-width="1" xmlns="http://www.w3.org/2000/svg" />
+		<circle cx="{$x}" cy="{$y}" r="{$POINT_RADIUS}" fill="white" stroke="{$pointColour}" stroke-width="1"  />
 
 		<xsl:if test="$index &lt; count($yData)">
 			<xsl:call-template name="_printPoints">
@@ -235,7 +236,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:variable name="yCount" select="count($yData)" />
 		<xsl:variable name="_verticalSpan" select="if ($verticalSpan &lt; $MIN_VERTICAL_SPAN) then $MIN_VERTICAL_SPAN else $verticalSpan"/>
 
-		<svg version="1.1" preserveAspectRatio="xMinYMin" xmlns="http://www.w3.org/2000/svg">
+		<svg version="1.1" preserveAspectRatio="xMinYMin" >
 			<xsl:attribute name="width" select="$width"/>
 			<xsl:attribute name="height" select="$height"/>
 			<xsl:attribute name="viewBox" select="concat('0 0 ', $viewBoxWidth, ' ', $viewBoxHeight)"/>
@@ -331,7 +332,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:variable name="_verticalSpan" select="if ($verticalSpan &lt; $MIN_VERTICAL_SPAN) then $MIN_VERTICAL_SPAN else $verticalSpan"/>
 
 
-		<svg version="1.1" preserveAspectRatio="xMinYMin" xmlns="http://www.w3.org/2000/svg">
+		<svg version="1.1" preserveAspectRatio="xMinYMin" >
 			<xsl:attribute name="width" select="$width"/>
 			<xsl:attribute name="height" select="$height"/>
 			<xsl:attribute name="viewBox" select="concat('0 0 ', $viewBoxWidth, ' ', $viewBoxHeight)"/>
@@ -473,7 +474,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:variable name="largeArcFlag" select="if ($angleInRadians &gt; $HALF_CIRCLE_ANGLE) then 1 else 0"/>
 		<xsl:variable name="centre" select="$padding+$radius" />
 
-		<path stroke="white" stroke-width="1" xmlns="http://www.w3.org/2000/svg">
+		<path stroke="white" stroke-width="1" >
 			<xsl:attribute name="fill" select="$colour"/>
 			<xsl:attribute name="transform" select="concat('translate(',$centre,' ',$centre,') rotate(',$rotationInDegrees,')')"/>
 			<xsl:attribute name="d" select="string-join(
@@ -503,7 +504,7 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:variable name="y" select="math:sin($angleInRadians)*$labelRadius" />
 		<xsl:variable name="centre" select="$padding+$radius" />
 
-		<text text-anchor="middle" fill="black" transform="translate({$centre} {$centre})" xmlns="http://www.w3.org/2000/svg">
+		<text text-anchor="middle" fill="black" transform="translate({$centre} {$centre})" >
 			<xsl:attribute name="x" select="($x*$cosine)-($y*$sine)" />
 			<xsl:attribute name="y" select="($x*$sine)+($y*$cosine)" />
 			<xsl:attribute name="font-family" select="$FONT"/>
@@ -522,13 +523,13 @@ Redistribution and use, with or without modification, are permitted provided tha
 		<xsl:for-each select="$data">
 			<xsl:variable name="y" select="$yStart+(position()-1)*8" />
 			<xsl:variable name="colour" select="sd:color(position())"/>
-			<rect rx="1" ry="1" width="10" height="5" stroke="black" stroke-width="0.5" xmlns="http://www.w3.org/2000/svg" >
+			<rect rx="1" ry="1" width="10" height="5" stroke="black" stroke-width="0.5"  >
 				<xsl:attribute name="x" select="$xStart"/>
 				<xsl:attribute name="y" select="$y"/>
 				<xsl:attribute name="fill" select="$colour"/>
 			</rect>
 
-			<text text-anchor="start" xmlns="http://www.w3.org/2000/svg">
+			<text text-anchor="start" >
 				<xsl:attribute name="x" select="$xStart+15"/>
 				<xsl:attribute name="y" select="$y + 4"/>
 				<xsl:attribute name="font-family" select="$FONT"/>
